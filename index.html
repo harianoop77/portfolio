@@ -114,6 +114,7 @@ input,textarea{background:#131313;border-color:#ffffff26}
 .it-list .it.stack{grid-template-columns:minmax(0,1fr)}
 .ims{background:#0a0a0a;display:flex;justify-content:center;align-items:center;gap:4px}
 .ims img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
+.it.fill .ims img{max-height:none}
 .ims[style] img{width:0;height:100%;max-height:none;object-fit:cover;min-width:0}
 .it-list .it:not(.stack) .ims{align-items:center}
 .it-list .it:not(.stack) .ims[style]{align-self:center}
@@ -225,7 +226,7 @@ const FAR={c1:1.334,c2:0.558,c3a:1.335,c3b:1.123,c4:1.333,s1:1.139,s2a:0.377,s2b
 function secs(p){return p.sections.map(sc=>{if(sc.video)return `<h3>${sc.h}</h3><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${sc.video}" title="Robot demo video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe><a class="vidfb" href="https://youtu.be/${sc.video}" target="_blank" rel="noopener">▶ Watch the robot demo on YouTube</a></div><p class="vidlink"><a href="https://youtu.be/${sc.video}" target="_blank" rel="noopener">Open on YouTube ↗</a></p>`;const has=sc.items.some(it=>it.im);return `<h3>${sc.h}</h3>`+(sc.intro?`<p>${sc.intro}</p>`:"")+`<div class="${has?"it-list":"it-grid"}">`+sc.items.map(it=>{
  const n=it.im?it.im.length:0,sum=n?it.im.reduce((a,k)=>a+FAR[k],0):0;
  const media=n?`<div class="ims"${n>1?` style="aspect-ratio:${sum.toFixed(3)}"`:""}>`+it.im.map(k=>`<img loading="lazy" src="${FIM[k]}" alt=""${n>1?` style="flex:${FAR[k]} 1 0"`:""}>`).join("")+`</div>`:"";
- return `<div class="it${n>=3?" stack":""}${n?"":" txt"}">${media}<div class="itb"><b>${it.t}</b><ul>${it.b.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`;}).join("")+`</div>`;}).join("");}
+ return `<div class="it${n>=3?" stack":""}${n?"":" txt"}${n===1&&FAR[it.im[0]]>=0.85?" fill":""}">${media}<div class="itb"><b>${it.t}</b><ul>${it.b.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`;}).join("")+`</div>`;}).join("");}
 function thumb(p){if(p.photo)return `<div class="thumb gif"><img class="anim" style="object-position:50% 50%" src="${p.photo}" alt=""><span class="corner">${p.n}</span></div>`;if(p.gif)return `<div class="thumb gif"><img class="anim" src="${p.gif}" alt=""><span class="corner">${p.n}</span></div>`;return p.img?`<div class="thumb"><img class="cut" src="${p.img}" alt=""><span class="corner">${p.n}</span></div>`:`<div class="thumb"><span>${p.n}</span></div>`;}
 const P=[
 {id:"maxplanetary",n:"01",title:"2:1 MAXPlanetary Cartridge",tag:"Product Development",sum:"Cartridge-based modular planetary gearbox cartridge",img:IMG1,org:"REV Robotics",role:"Product Development Engineer",yr:"Summer 2025",tools:"CAD, DFM/DFA, FEA, GD&T",
@@ -235,7 +236,7 @@ const P=[
  body:"I designed and built a cyclic load test rig for an overrunning clutch and wrote the full test procedure, compressing a four-year product lifecycle into an accelerated test.",
  hl:["Wrote the test procedure used to run the accelerated four-year lifecycle","Found a fatigue failure before the part reached production","Built the rig to repeat loading cycles consistently so results were trustworthy"]},
 {id:"ftc",n:"03",title:"2021-22 FTC Robot: \"Perseverance\"",tag:"Robotics Competition",sum:"The subsystems I created on my FTC team's 2021-22 robot",photo:FIM.hero,org:"FTC Team 9511 · Low Voltage",role:"Captain, Mechanical and Software Lead",yr:"2021-22 season",tools:"3D printing, Fusion 360, Bandsaw, OpenCV",
- body:"Our 2021-22 competition robot for FIRST Tech Challenge Freight Frenzy, built by FTC Team 9511, Low Voltage. As Captain and Mechanical and Software Lead, I designed the subsystems and software on this page. Each one went through several design iterations, driven by testing and what we learned at competition.",
+ body:"2021-22 competition robot for FIRST Tech Challenge \"Freight Frenzy\", for FTC Team 9511, Low Voltage. As Captain and Mechanical and Software Lead, I designed the subsystems and software on this page. Each one went through several design iterations, driven by testing and what we learned at competition.",
  sections:[
  {h:"The Robot",items:[{t:"Freight Frenzy objective",b:["Pick up and score cubes and wiffle balls in a tiered goal for points","Spin the carousel to drop ducks onto the field and score points","This page covers the mechanisms and software I personally designed"],im:["hero"]}]},
  {h:"Chassis",intro:"An H-shaped, gear-driven mecanum drivetrain, refined over four iterations to fit the field and the scoring mechanism.",items:[
