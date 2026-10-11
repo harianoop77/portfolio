@@ -54,16 +54,16 @@ h2{font-size:clamp(28px,4vw,42px);margin:8px 0 28px;letter-spacing:-.02em}
 .card ul{margin:0;padding-left:18px;color:#c9c9c9;font-size:14px}
 .stack{display:grid;gap:16px}
 .car{position:relative}
-.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 20px;scrollbar-width:none}
+.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:33px 44px 60px;margin:-27px -42px -40px;scroll-padding-left:44px;scrollbar-width:none}
 .track::-webkit-scrollbar{display:none}
 .pc{flex:0 0 min(380px,82%);scroll-snap-align:start;border:1px solid var(--line);border-radius:16px;background:#0a0a0aeb;overflow:hidden;cursor:pointer;transition:.25s}
-.pc:hover{border-color:var(--or);transform:translateY(-6px);box-shadow:0 16px 44px #FB3B0159,0 0 28px #FB3B0133}
+.pc:hover{border-color:var(--or);transform:translateY(-5px);box-shadow:0 16px 44px #FB3B0159,0 0 28px #FB3B0133}
 .thumb{aspect-ratio:5/4;position:relative;display:grid;place-items:center;background:radial-gradient(circle at 30% 20%,#FB3B0155,transparent 60%),linear-gradient(135deg,#161616,#070707);border-bottom:1px solid var(--line)}
 .thumb::before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff0c 1px,transparent 1px),linear-gradient(90deg,#ffffff0c 1px,transparent 1px);background-size:24px 24px}
 .thumb span{position:relative;font:700 54px var(--mono);color:var(--or);opacity:.9}
 .pc .bd{padding:18px}.pc small{font:12px var(--mono);color:var(--or);letter-spacing:.1em;text-transform:uppercase}
 .pc h3{margin:6px 0 8px;font-size:19px}.pc p{margin:0;color:var(--mute);font-size:14px}
-.arrows{display:flex;gap:10px;justify-content:flex-end;margin-bottom:10px}
+.arrows{position:relative;z-index:2;display:flex;gap:10px;justify-content:flex-end;margin-bottom:10px}
 .ar{width:42px;height:42px;border-radius:50%;border:1px solid #333;background:#0a0a0a;color:var(--text);font-size:18px;cursor:pointer;transition:.2s}
 .ar:hover{border-color:var(--or);color:var(--or)}
 .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
@@ -230,13 +230,13 @@ function secs(p){return p.sections.map(sc=>{if(sc.video)return `<h3>${sc.h}</h3>
  return `<div class="it${n>=3?" stack":""}${n?"":" txt"}${n===1&&FAR[it.im[0]]>=0.85?" fill":""}">${media}<div class="itb"><b>${it.t}</b><ul>${it.b.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>`;}).join("")+`</div>`;}).join("");}
 function thumb(p){if(p.photo)return `<div class="thumb gif"><img class="anim" style="object-position:50% 50%" src="${p.photo}" alt=""><span class="corner">${p.n}</span></div>`;if(p.gif)return `<div class="thumb gif"><img class="anim" src="${p.gif}" alt=""><span class="corner">${p.n}</span></div>`;return p.img?`<div class="thumb"><img class="cut" src="${p.img}" alt=""><span class="corner">${p.n}</span></div>`:`<div class="thumb"><span>${p.n}</span></div>`;}
 const P=[
-{id:"maxplanetary",n:"01",title:"2:1 MAXPlanetary Cartridge",tag:"Product Development",sum:"Cartridge-based modular planetary gearbox cartridge",img:IMG1,org:"REV Robotics",role:"Product Development Engineer",yr:"Summer 2025",tools:"CAD, DFM/DFA, FEA, GD&T",
+{id:"maxplanetary",n:"01",title:"2:1 MAXPlanetary Cartridge",tag:"Product Development",ty:"2025",sum:"Cartridge-based modular planetary gearbox cartridge",img:IMG1,org:"REV Robotics",role:"Product Development Engineer",yr:"Summer 2025",tools:"CAD, DFM/DFA, FEA, GD&T",
  body:"I engineered the 2:1 MAXPlanetary Cartridge, a modular planetary gearbox cartridge with a unique configuration that uses a stationary carrier and a secondary ring gear output.",
  hl:["Unique configuration: stationary carrier with a secondary ring gear output","Designed to withstand 160 N·m of torque while remaining under 0.375 lbs","Released as REV part number REV-21-2140"]},
-{id:"clutch",n:"02",title:"Overrunning Clutch Cyclic Test Rig",tag:"Test Engineering",sum:"Sensor-automated accelerated lifecycle (4 year, 150-lb load) static and dynamic load test rig",gif:GIF1,org:"REV Robotics",role:"Product Test Engineer",yr:"Summer 2024",tools:"Test procedure authoring, fixture design, fatigue analysis",
+{id:"clutch",n:"02",title:"Overrunning Clutch Cyclic Test Rig",tag:"Test Engineering",ty:"2024",sum:"Sensor-automated accelerated lifecycle (4 year, 150-lb load) static and dynamic load test rig",gif:GIF1,org:"REV Robotics",role:"Product Test Engineer",yr:"Summer 2024",tools:"Test procedure authoring, fixture design, fatigue analysis",
  body:"I designed and built a cyclic load test rig for an overrunning clutch and wrote the full test procedure, compressing a four-year product lifecycle into an accelerated test.",
  hl:["Wrote the test procedure used to run the accelerated four-year lifecycle","Found a fatigue failure before the part reached production","Built the rig to repeat loading cycles consistently so results were trustworthy"]},
-{id:"ftc",n:"03",title:"2021-22 FTC Robot: \"Perseverance\"",tag:"Robotics Competition",sum:"The subsystems I created on my FTC team's 2021-22 robot",photo:FIM.hero,org:"FTC Team 9511 · Low Voltage",role:"Captain, Mechanical and Software Lead",yr:"2021-22 season",tools:"3D printing, Fusion 360, Bandsaw, OpenCV",
+{id:"ftc",n:"03",title:"2021-22 FTC Robot: \"Perseverance\"",tag:"Robotics Competition",ty:"2021-22",sum:"The subsystems I created on my FTC team's 2021-22 robot",photo:FIM.hero,org:"FTC Team 9511 · Low Voltage",role:"Captain, Mechanical and Software Lead",yr:"2021-22 season",tools:"3D printing, Fusion 360, Bandsaw, OpenCV",
  body:"2021-22 competition robot for FIRST Tech Challenge \"Freight Frenzy\", for FTC Team 9511, Low Voltage. As Captain and Mechanical and Software Lead, I designed the subsystems and software on this page. Each one went through several design iterations, driven by testing and what we learned at competition.",
  sections:[
  {h:"The Robot",items:[{t:"Freight Frenzy objective",b:["Pick up and score cubes and wiffle balls in a tiered goal for points","Spin the carousel to drop ducks onto the field and score points","This page covers the mechanisms and software I personally designed"],im:["hero"]}]},
@@ -265,23 +265,23 @@ const P=[
  {h:"Vision: Barcode Scanner",items:[{t:"99% accurate scanning",b:["Custom vision pipeline built with OpenCV","Color scale conversion from RGB to HSV","Thresholding to detect our team shipping element (within certain HSV values)","Checks the location of the green object within predefined regions of interest, outputting the initial scoring level to determine the autonomous path"],im:["v1","v2","v3"]}]},
  {h:"Robot Demo Video",video:"JgNFHl83E8A",items:[]}
  ]},
-{id:"benchmark",n:"04",title:"Competitive Benchmarking Testbeds",tag:"Test Engineering",sum:"Testbeds that compare motors and CAN sensors against competitors.",org:"REV Robotics",role:"Product Test Engineer",yr:"Summer 2024",tools:"Data acquisition, fixture design, Python/Arduino",
+{id:"benchmark",n:"04",title:"Competitive Benchmarking Testbeds",tag:"Test Engineering",ty:"2025",sum:"Testbeds that compare motors and CAN sensors against competitors.",org:"REV Robotics",role:"Product Development Engineer",yr:"Summer 2025",tools:"Data acquisition, fixture design, Python/Arduino",
  body:"I built benchmarking testbeds to measure REV motors and CAN sensors head to head with competing products, giving the team objective data to guide design decisions.",
  hl:["Testbeds for both motors and CAN sensors","Repeatable methodology for fair competitor comparison","Results fed directly into product decisions"]},
-{id:"molded",n:"05",title:"Injection-Molded Sprockets & Pulleys",tag:"Design for Manufacturing",sum:"Moldable sprockets and pulleys designed with GD&T and DFM.",org:"REV Robotics",role:"Product Development Engineer",yr:"Summers 2025 & 2026",tools:"CAD, GD&T (ASME Y14.5, ISO 286), DFM/DFA",
+{id:"molded",n:"05",title:"Injection-Molded Sprockets & Pulleys",tag:"Design for Manufacturing",ty:"2026",sum:"Moldable sprockets and pulleys designed with GD&T and DFM.",org:"REV Robotics",role:"Product Development Engineer",yr:"Summers 2025 & 2026",tools:"CAD, GD&T (ASME Y14.5, ISO 286), DFM/DFA",
  body:"I designed injection-molded sprockets and pulleys, applying GD&T to ASME Y14.5 and ISO 286 fits so parts could be molded and assembled consistently at scale.",
  hl:["Applied ASME Y14.5 GD&T and ISO 286 fits","Designed around molding constraints from the start","Presented related work at UN AI for Good in Geneva"]},
-{id:"frc",n:"06",title:"FRC Team 2714 \"BBQ\" Robot Design",tag:"Team Leadership",sum:"Led mechanical design and the team for four seasons.",org:"FRC Team 2714",role:"Mechanical Design Lead & Captain",yr:"Jan 2022 – May 2026",tools:"Onshape, DFMEA, CNC router, 3D printing, manual lathe",
+{id:"frc",n:"06",title:"FRC Team 2714 \"BBQ\" Robot Design",tag:"Team Leadership",ty:"2022-26",sum:"Led mechanical design and the team for four seasons.",org:"FRC Team 2714",role:"Mechanical Design Lead & Captain",yr:"Jan 2022 – May 2026",tools:"Onshape, DFMEA, CNC router, 3D printing, manual lathe",
  body:"As Mechanical Design Lead and Team Captain I ran the design process, introduced DFMEA, and grew the team fourfold.",
  hl:["7 Design Awards","Team grew 4x under my leadership","Won the Thunderation CADathon (Jan 2025)"]},
-{id:"outreach",n:"07",title:"K-12 Robotics Program Founder",tag:"Outreach",sum:"Founded 16 teams and mentored 148 students across 4 schools.",org:"Dallas–Fort Worth",role:"Founder & Mentor",yr:"Ongoing",tools:"Curriculum design, mentoring, FIRST programs",
+{id:"outreach",n:"07",title:"K-12 Robotics Program Founder",tag:"Outreach",ty:"2022-Present",sum:"Founded 16 teams and mentored 148 students across 4 schools.",org:"Dallas–Fort Worth",role:"Founder & Mentor",yr:"Ongoing",tools:"Curriculum design, mentoring, FIRST programs",
  body:"I started K-12 robotics programs at four DFW schools, creating 16 new teams and mentoring 148 students.",
  hl:["16 new teams across 4 schools","148 students mentored","Continued involvement as a FIRST mentor and referee"]}];
 
 const $=s=>document.querySelector(s);
 $("#yr").textContent=new Date().getFullYear();
 $("#menu").innerHTML=P.map(p=>`<a href="#/p/${p.id}"><span>${p.n}</span>${p.title}</a>`).join("");
-$("#track").innerHTML=P.map(p=>`<article class="pc" onclick="location.hash='#/p/${p.id}'" tabindex="0" onkeydown="if(event.key==='Enter')location.hash='#/p/${p.id}'">${thumb(p)}<div class="bd"><small>${p.tag}</small><h3>${p.title}</h3><p>${p.sum}</p></div></article>`).join("");
+$("#track").innerHTML=P.map(p=>`<article class="pc" onclick="location.hash='#/p/${p.id}'" tabindex="0" onkeydown="if(event.key==='Enter')location.hash='#/p/${p.id}'">${thumb(p)}<div class="bd"><small>${p.tag}${p.ty?" · "+p.ty:""}</small><h3>${p.title}</h3><p>${p.sum}</p></div></article>`).join("");
 
 
 const R=[
