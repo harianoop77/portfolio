@@ -13,11 +13,12 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 html{scroll-behavior:smooth;color-scheme:dark}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
-#bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:var(--bg)}
-#bg i{position:absolute;opacity:.38;will-change:transform}
-#b1{width:60vmax;height:60vmax;left:-15vmax;top:-10vmax;background:radial-gradient(circle,#FB3B01,transparent 65%)}
-#b2{width:50vmax;height:50vmax;right:-15vmax;top:30vh;background:radial-gradient(circle,#8a1a00,transparent 65%);opacity:.5}
-#b3{width:40vmax;height:40vmax;left:20vw;bottom:-20vmax;background:radial-gradient(circle,#ff6a3a,transparent 65%);opacity:.18}
+#bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(ellipse at 12% 0%,#FB3B012b,transparent 55%),radial-gradient(ellipse at 100% 55%,#8a1a0033,transparent 50%),var(--bg)}
+#bp{position:absolute;inset:0;width:100%;height:100%}
+.gr{opacity:.15}.gr path{fill:none;stroke:#FB3B01;stroke-width:1.6}
+.dg{opacity:.42}.dp{fill:none;stroke:#FB3B01;stroke-width:1.5}
+.dg text{fill:#FB3B01;font:15px ui-monospace,Menlo,Consolas,monospace;opacity:0}
+.dg .cl{fill:none;stroke:#9a9a9a;stroke-width:1;stroke-dasharray:14 4 3 4;opacity:0}
 #grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%)}
 nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,5vw,56px);padding-top:calc(14px + env(safe-area-inset-top,0px));margin-top:calc(-1 * env(safe-area-inset-top,0px));background:#050505b8;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .brand{font-family:var(--mono);font-weight:700;letter-spacing:.08em;cursor:pointer}.brand b{color:var(--or)}
@@ -141,7 +142,7 @@ input,textarea{background:#131313;border-color:#ffffff26}
 </style>
 </head>
 <body>
-<div id="bg"><i id="b1"></i><i id="b2"></i><i id="b3"></i><div id="grid"></div></div>
+<div id="bg"><div id="grid"></div><svg id="bp" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg></div>
 
 <nav>
   <div class="brand" onclick="go('top')"><b>Hari's</b> Portfolio</div>
@@ -337,13 +338,42 @@ function route(){
 document.addEventListener("securitypolicyviolation",e=>{if(/frame|default/.test(e.violatedDirective))document.querySelectorAll(".vid").forEach(v=>v.classList.add("blocked"))});
 addEventListener("hashchange",route);route();
 
-// Moving gradient: blobs drift with scroll progress
-const b=[$("#b1"),$("#b2"),$("#b3")];let tick=false;
-function bg(){tick=false;const h=document.documentElement.scrollHeight-innerHeight,s=h>0?scrollY/h:0,w=innerWidth,v=innerHeight;
-  b[0].style.transform=`translate(${s*w*.45}px,${s*v*1.4}px) scale(${1+s*.3})`;
-  b[1].style.transform=`translate(${-s*w*.5}px,${-s*v*.9}px) scale(${1.15-s*.25})`;
-  b[2].style.transform=`translate(${s*w*.3}px,${-s*v*1.2}px)`;}
-addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(bg)}},{passive:true});bg();
+// Background: rotating gears + self-drawing GD&T blueprint (scroll-linked)
+(function(){
+const bp=$("#bp"),pt=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)],f=v=>v.toFixed(1);
+const circ=(cx,cy,r)=>`M${f(cx-r)},${f(cy)}a${f(r)},${f(r)} 0 1,0 ${f(2*r)},0a${f(r)},${f(r)} 0 1,0 ${f(-2*r)},0Z`;
+function gear(N,rp,holes){const m=2*rp/N,Ro=rp+m,Rr=rp-1.25*m,p=360/N;let d="";
+ for(let k=0;k<N;k++){const c=k*p;[[c-.30*p,Rr],[c-.16*p,Ro],[c+.16*p,Ro],[c+.30*p,Rr]].forEach(([a,r],q)=>{const t=pt(r,a);d+=(k+q?"L":"M")+f(t[0])+","+f(t[1])})}
+ d+="Z"+circ(0,0,Rr*.78)+circ(0,0,Rr*.2);
+ for(let h=0;h<holes;h++){const t=pt(Rr*.5,h*360/holes);d+=circ(t[0],t[1],Rr*.12)}
+ return d;}
+const GA={N:28,rp:314,x:170,y:830},GB={N:14,rp:157,x:0,y:0},GC={N:20,rp:224,x:1520,y:110};
+const phi=-38,dist=GA.rp+GB.rp;GB.x=GA.x+dist*Math.cos(phi*Math.PI/180);GB.y=GA.y+dist*Math.sin(phi*Math.PI/180);
+const fcf=(x,y,w,cells)=>{let d=`M${x},${y}H${x+w}V${y+46}H${x}Z`;cells.forEach(c=>d+=`M${x+c},${y}V${y+46}`);return d};
+const G=[
+{a:0,b:.12,p:["M1300,150L1324,108L1348,150Z","M1324,150V176","M1300,176H1348V222H1300Z"],t:[[1313,208,"A",26]]},
+{a:0,b:.2,p:[fcf(840,80,350,[50,230,290]),circ(865,103,13),"M865,84V122","M846,103H884"],t:[[902,111,"Ø0.05 (M)"],[1100,111,"A"],[1160,111,"B"]]},
+{a:.1,b:.28,p:[fcf(14,260,150,[46]),"M23,294L36,272H52L39,294Z"],t:[[62,290,"0.02"]]},
+{a:.22,b:.4,p:[fcf(14,360,160,[46,102]),"M37,372V394","M25,394H49"],t:[[62,390,"0.05"],[122,390,"A"]]},
+{a:.3,b:.5,p:["M1180,420V520","M1500,420V520","M1180,500H1500","M1180,500L1196,494M1180,500L1196,506","M1500,500L1484,494M1500,500L1484,506"],t:[[1262,490,"Ø25 ±0.05"]]},
+{a:.42,b:.62,p:[circ(1300,720,80),circ(1300,720,48),circ(1300,720,18),"M1334,686L1400,640H1470"],t:[[1405,632,"Ø48 H7"]],c:["M1180,720H1420","M1300,600V840"]},
+{a:.55,b:.72,p:[fcf(14,470,160,[46,102]),"M28,504L40,482","M42,504L54,482"],t:[[62,500,"0.1"],[122,500,"A"]]},
+{a:.62,b:.8,p:[fcf(1060,300,170,[46]),circ(1080,323,10),"M1066,334L1084,310","M1078,338L1096,314"],t:[[1122,333,"0.01"]]},
+{a:.74,b:.95,p:[fcf(14,580,160,[46,102]),"M28,612L50,590","M38,590H50V602"],t:[[62,610,"0.03"],[122,610,"A"]]}];
+bp.innerHTML=`<g class="gr"><g id="gA"><path d="${gear(GA.N,GA.rp,6)}"/></g><g id="gB"><path d="${gear(GB.N,GB.rp,4)}"/></g><g id="gC"><path d="${gear(GC.N,GC.rp,5)}"/></g></g>`+
+G.map(g=>`<g class="dg">`+g.p.map(d=>`<path class="dp" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" d="${d}"/>`).join("")+(g.c||[]).map(d=>`<path class="cl" d="${d}"/>`).join("")+g.t.map(t=>`<text x="${t[0]}" y="${t[1]}"${t[3]?` font-size="${t[3]}"`:""}>${t[2]}</text>`).join("")+`</g>`).join("");
+const gA=$("#gA"),gB=$("#gB"),gC=$("#gC"),els=[...bp.querySelectorAll(".dg")].map((el,i)=>({ps:[...el.querySelectorAll(".dp")],tx:[...el.querySelectorAll("text")],cl:[...el.querySelectorAll(".cl")],a:G[i].a,b:G[i].b}));
+const cl=v=>v<0?0:v>1?1:v;let intro=0,tick=false;const still=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+function apply(){tick=false;const h=document.documentElement.scrollHeight-innerHeight,s=still?0:(h>0?scrollY/h:0),e=still?2:s+intro;
+ const t1=20+s*400;gA.setAttribute("transform",`translate(${GA.x} ${GA.y}) rotate(${f(t1)})`);
+ gB.setAttribute("transform",`translate(${f(GB.x)} ${f(GB.y)}) rotate(${f(phi+180-180/GB.N-(GA.N/GB.N)*(t1-phi))})`);
+ gC.setAttribute("transform",`translate(${GC.x} ${GC.y}) rotate(${f(30-s*300)})`);
+ els.forEach(g=>{const p=cl((e-g.a)/(g.b-g.a)),n=g.ps.length;g.ps.forEach((el,k)=>{el.style.strokeDashoffset=(1-cl(p*(.2*n+1)-.2*k)).toFixed(3)});
+  const o=cl((p-.6)/.4);g.tx.forEach(t=>t.style.opacity=(o*.8).toFixed(2));g.cl.forEach(c=>c.style.opacity=(cl((p-.2)/.4)*.35).toFixed(2));});}
+const req=()=>{if(!tick){tick=true;requestAnimationFrame(apply)}};
+addEventListener("scroll",req,{passive:true});addEventListener("resize",req);apply();
+if(!still){const t0=performance.now(),run=t=>{intro=Math.min(.14,(t-t0)/2200*.14);apply();if(intro<.14)requestAnimationFrame(run)};requestAnimationFrame(run)}
+})();
 addEventListener("click",e=>{if(!e.target.closest("#dd"))$("#dd").classList.remove("open")});
 </script>
 </body>
